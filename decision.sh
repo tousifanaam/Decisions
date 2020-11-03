@@ -110,7 +110,7 @@ while [ $n -ne 6 ];do
 done && echo -e "\nYou rolled \e[92m[\e[0m $roll1 \e[92m]\e[0m and \e[92m[\e[0m $roll2 \e[92m]\e[0m" && exit
 fi    
                         
-# 7. Custom (out of multiple) [default]                       
+# 5. Custom (out of multiple) [default]                       
 if [ "$1" = "-m" ] 2>/dev/null;then 
 clear; echo
 decision_file=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
@@ -135,7 +135,7 @@ echo -e "\nin \e[92m1\e[0m" && sleep 1s
 echo -e "\n\e[94m>>>\e[0m $answer \e[94m<<<\e[0m" && exit                     
 fi
                             
-# 8. Custom (out of 2) [default]       
+# 6. Custom (out of 2) [default]       
 echo 'If you have two options at hand...but not enough brainpower to choose yourself. Let me decide for ya!'
 echo
 read -p "Decision 1: " a
