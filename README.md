@@ -1,5 +1,5 @@
 # Decisions
-Shell script for making decisions using coin, dice, double dice and two custom features
+Simple shell script for making random decisions using coin, dice, double dice and two custom features
 
 # Usage
 Step 1: Clone the repository
