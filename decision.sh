@@ -6,6 +6,17 @@
 echo
 clear
 echo
+# User Manual                       
+if [[ "$1" = "-help" || "$1" = "-h" ]] 2>/dev/null;then  
+	echo -e "\nDEFAULT is set to Custom (two options)"                                    
+	echo -e "\n \e[92m-n\e[0m  \e[94mfor\e[0m\tyes or no"                                        
+	echo -e "\n \e[92m-c\e[0m  \e[94mfor\e[0m\tcoin flip"                                         
+	echo -e "\n \e[92m-d\e[0m  \e[94mfor\e[0m\tsingle dice roll"                                         
+	echo -e "\n \e[92m-dd\e[0m \e[94mfor\e[0m\tdouble dice roll"                                         
+	echo -e "\n \e[92m-m\e[0m  \e[94mfor\e[0m\tCustom (multiple option)"      
+ exit
+fi 
+
 
 # 1. normal ( yes/no )
 if [ "$1" = "-n" ] 2>/dev/null;then
@@ -142,7 +153,7 @@ read -p "Decision 1: " a
 read -p "Decision 2: " b
 if [ $a = $b ] 2>/dev/null; then
         echo
-        echo "Both cannot be the samething..duh"
+        echo -e "Both cannot be the samething..duh 乁(\e[91m ⁰͡ \e[0mĹ̯ \e[91m⁰͡ \e[0m) ㄏ"
         exit
 fi
 echo -e "\nin 3"
@@ -169,4 +180,4 @@ if [ $op1 -gt $op2 ];then
 elif [ $op1 -lt $op2 ];then
         echo -e "\n>>> $b <<<"
 fi
-echo 
+echo
