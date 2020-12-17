@@ -3,16 +3,15 @@
 # Usage:  A simple script for making random choices.
 # Author: Tousif Anaam
 
-echo
-clear
-echo
+clear; echo
 # User Manual                       
 if [[ "$1" = "-help" || "$1" = "-h" ]] 2>/dev/null;then  
 	echo -e "\nDEFAULT is set to Custom (two options)"                                    
 	echo -e "\n \e[92m-n\e[0m  \e[94mfor\e[0m\tyes or no"                                        
 	echo -e "\n \e[92m-c\e[0m  \e[94mfor\e[0m\tcoin flip"                                         
 	echo -e "\n \e[92m-d\e[0m  \e[94mfor\e[0m\tsingle dice roll"                                         
-	echo -e "\n \e[92m-dd\e[0m \e[94mfor\e[0m\tdouble dice roll"                                         
+	echo -e "\n \e[92m-dd\e[0m \e[94mfor\e[0m\tdouble dice roll"
+	echo -e "\n \e[92m-q\e[0m  \e[94mfor\e[0m\tAsk a question."                                       
 	echo -e "\n \e[92m-m\e[0m  \e[94mfor\e[0m\tCustom (multiple option)"      
  exit
 fi 
@@ -96,7 +95,7 @@ echo -e "\n\e[92m$roll\e[0m" && sleep 0.2s && check=$(($roll+1))
 while [ $check -ne 7 ];do
     echo -e "\n$check" && sleep 0.2s && check=$(($check+1))
                 done && echo -e "\nYou rolled a \e[92m[\e[0m $roll \e[92m]\e[0m" && exit
-fi            
+fi
 
 # 4. Double Dice Roll ((1/2/3/4/5/6) && (1/2/3/4/5/6))
 if [ "$1" = "-dd" ] 2>/dev/null;then
@@ -104,8 +103,8 @@ roll1=$((1 + $RANDOM % 6)); roll2=$((1 + $RANDOM % 6))
 roll_animation () {
 echo "Rolling..." ; n=0; x=1; y=6
 while [ $n -ne 6 ];do
-    echo -e "\n$x\t$y" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1)) 
-done && clear 
+    echo -e "\n$x\t$y" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))
+done && clear
 }
 roll_animation; roll_animation; echo "Rolling..."; n=0; x=1; y=6
 while [ $n -ne 6 ];do
@@ -113,21 +112,34 @@ while [ $n -ne 6 ];do
         echo -e "\n\e[92m$x\t$y\e[0m" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))
     elif [ $x -eq $roll1 ];then
         echo -e "\n\e[92m$x\e[0m\t$y" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))
-    elif [ $y -eq $roll2 ];then  
+    elif [ $y -eq $roll2 ];then
         echo -e "\n$x\t\e[92m$y\e[0m" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))
     else
-        echo -e "\n$x\t$y" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))  
-    fi               
+        echo -e "\n$x\t$y" && sleep 0.2s && x=$(($x+1)) && y=$(($y-1)) && n=$(($n+1))
+    fi
 done && echo -e "\nYou rolled \e[92m[\e[0m $roll1 \e[92m]\e[0m and \e[92m[\e[0m $roll2 \e[92m]\e[0m" && exit
-fi    
-                        
-# 5. Custom (out of multiple)                        
-if [ "$1" = "-m" ] 2>/dev/null;then 
+fi
+
+# 5. 'yes' or 'no' answer to any question based on randomness
+if [ "$1" = "-q" ] 2>/dev/null;then
+	clear; echo
+	read -p $'Enter your question below...\n>  ' question
+	a=$((1+$RANDOM%2))
+	if [ $a -eq 1 ];then
+		echo -e "\n\e[93m-->\e[0m Yes"
+	else
+		echo -e "\n\e[93m-->\e[0m No"
+	fi
+	exit
+fi
+
+# 6. Custom (out of multiple)
+if [ "$1" = "-m" ] 2>/dev/null;then
 clear; echo
 decision_file=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
 n=0; number=1
 while [ $n -eq 0 ];do
-    read -p "${number}. " decision 
+    read -p "${number}. " decision
     if [ "$decision" = ".d" ];then
         echo -e "\e[94m∆\e[0m Total no. of options noted: $(($number-1))"
     					count=`wc -l $decision_file | cut -d " " -f 1`
@@ -139,14 +151,14 @@ while [ $n -eq 0 ];do
     echo -e "\e[92m✓ Noted.\e[0m Type \e[93m.d\e[0m to \e[91mend\e[0m\n" && number=$(($number+1))
     echo $decision >> $decision_file
     fi
-done    
+done
 echo -e "\nin \e[91m3\e[0m" && sleep 1s
 echo -e "\nin \e[93m2\e[0m" && sleep 1s
 echo -e "\nin \e[92m1\e[0m" && sleep 1s
 echo -e "\n\e[94m>>>\e[0m $answer \e[94m<<<\e[0m" && exit                     
 fi
                             
-# 6. Custom (out of 2) [default]       
+# 7. Custom (out of 2) [default]       
 echo 'If you have two options at hand...but not enough brainpower to choose yourself. Let me decide for ya!'
 echo
 read -p "Decision 1: " a
@@ -180,4 +192,4 @@ if [ $op1 -gt $op2 ];then
 elif [ $op1 -lt $op2 ];then
         echo -e "\n>>> $b <<<"
 fi
-echo
+echo                
